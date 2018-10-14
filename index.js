@@ -21,6 +21,13 @@ interact('.resize-drag')
     },
 
     inertia: true,
+
+    snap: {
+      targets: [
+        // snap to multiples of 10
+        interact.createSnapGrid({ x: 10, y: 10 }),
+      ]
+    }
   })
   .on('dragmove', function(event) {
     var rect = getRect(event.target);
@@ -120,6 +127,7 @@ function validateSetRect(target, rect, isMove) {
 }
 
 function setRect(target, rect) {
+
   if (rect.width !== undefined) {
     target.style.width = rect.width + 'px';
     target.setAttribute('data-width', rect.width);
@@ -216,7 +224,7 @@ areas = {
   allSamples: document.querySelector('#all-samples'),
   classifiedPositive: document.querySelector('#classified-positive'),
 }
-setRect(areas.positive, {x: 75, y: 65, width: 200, height: 200});
+setRect(areas.positive, {x: 160, y: 60, width: 200, height: 200});
 setRect(areas.classifiedPositive, {x: 130, y: 180, width: 300, height: 100});
 setRect(areas.allSamples, {x: 10, y: 10, width: 500, height: 500});
 updateStats();
