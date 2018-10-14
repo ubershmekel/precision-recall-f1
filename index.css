@@ -32,18 +32,15 @@ body {
 
 #all-samples {
   background-color: rgba(0,0,0,0.5);
-  /* width: 400px;
-  height: 400px; */
 }
 
 #positive {
   background-color: rgba(255, 0, 0, 0.5);
-  /* color: #000; */
-  /* width: 200px; */
 }
 
 #classified-positive {
   background-color: rgba(0, 255, 0, 0.5);
-  /* color: #000; */
-  /* width: 200px; */
+  align-items: flex-end;
+  display: flex;
 }
+

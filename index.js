@@ -112,10 +112,26 @@ function updateStats() {
   var rectPositive = getRect(areas.positive);
   var rectClassifiedPositive = getRect(areas.classifiedPositive);
 
-  document.querySelector("#samples-count").innerHTML = area(rectAllSamples);
-  document.querySelector("#positive-samples-count").innerHTML = area(rectPositive);
-  document.querySelector("#classified-positive-samples-count").innerHTML = area(rectClassifiedPositive);
-  document.querySelector("#true-positive-count").innerHTML = intersectionArea(rectPositive, rectClassifiedPositive);
+  var sampleCount = area(rectAllSamples);
+  var positive = area(rectPositive);
+  var classifiedPositive = area(rectClassifiedPositive)
+  var tp = intersectionArea(rectPositive, rectClassifiedPositive);
+  var precision = tp / classifiedPositive;
+  var recall = tp / positive;
+  var negative = sampleCount - positive;
+  var tn = sampleCount - positive - classifiedPositive + tp;
+  var specificity = tn / negative;
+  var f1 = 2 / ((1 / recall) + (1 / precision));
+
+  document.querySelector("#samples-count").innerHTML = sampleCount;
+  document.querySelector("#positive-samples-count").innerHTML = positive;
+  document.querySelector("#classified-positive-samples-count").innerHTML = classifiedPositive;
+  document.querySelector("#true-positive-count").innerHTML = tp;
+  document.querySelector("#true-negative-count").innerHTML = tn;
+  document.querySelector("#precision").innerHTML = precision;
+  document.querySelector("#recall").innerHTML = recall;
+  document.querySelector("#specificity").innerHTML = specificity;
+  document.querySelector("#f1").innerHTML = f1;
 }
 
 function assertEq(test, expected, description) {
@@ -143,8 +159,8 @@ areas = {
   allSamples: document.querySelector('#all-samples'),
   classifiedPositive: document.querySelector('#classified-positive'),
 }
-setRect(areas.positive, {x: 30, y: 30, width: 100, height: 200});
-setRect(areas.classifiedPositive, {x: 60, y: 80, width: 200, height: 100});
+setRect(areas.positive, {x: 5, y: 5, width: 200, height: 200});
+setRect(areas.classifiedPositive, {x: 30, y: 80, width: 300, height: 100});
 setRect(areas.allSamples, {x: 10, y: 10, width: 500, height: 500});
 updateStats();
 tests();
