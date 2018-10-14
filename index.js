@@ -1,6 +1,6 @@
 interact('.resize-drag')
   .draggable({
-    onmove: window.dragMoveListener,
+    onmove: dragMoveListener,
     restrict: {
       restriction: 'parent',
       elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
@@ -13,7 +13,7 @@ interact('.resize-drag')
     // keep the edges inside the parent
     restrictEdges: {
       outer: 'parent',
-      endOnly: true,
+      //endOnly: true,
     },
 
     // minimum size
@@ -33,6 +33,7 @@ interact('.resize-drag')
     rect.height = event.rect.height;
 
     //target.textContent = Math.round(event.rect.width) + '\u00D7' + Math.round(event.rect.height);
+    validateSetRect(event.target, rect);
     setRect(event.target, rect);
     updateStats();
   });
@@ -44,6 +45,48 @@ function getRect(target) {
     width: (parseFloat(target.getAttribute('data-width')) || 0),
     height: (parseFloat(target.getAttribute('data-height')) || 0),
   };
+}
+
+function mustContain(outsideRect, inRect) {
+  // outsideRect must be set to contain inRect within it
+  if (inRect.x < outsideRect.x) {
+    outsideRect.x = inRect.x;
+  }
+  if (inRect.x + inRect.width > outsideRect.x + outsideRect.width) {
+    outsideRect.width = inRect.x + inRect.width - outsideRect.x;
+  }
+  if (inRect.y < outsideRect.y) {
+    outsideRect.y = inRect.y;
+  }
+  if (inRect.y + inRect.height > outsideRect.y + outsideRect.height) {
+    outsideRect.height = inRect.y + inRect.height - outsideRect.y;
+  }
+}
+
+function mustStayIn(inRect, outsideRect) {
+  // inRect must be set to stay inside outsideRect
+  if (inRect.x < outsideRect.x) {
+    inRect.x = outsideRect.x;
+  }
+  if (inRect.x + inRect.width > outsideRect.x + outsideRect.width) {
+    inRect.width = outsideRect.x + outsideRect.width - inRect.x;
+  }
+  if (inRect.y < outsideRect.y) {
+    inRect.y = outsideRect.y;
+  }
+  if (inRect.y + inRect.height > outsideRect.y + outsideRect.height) {
+    inRect.height = outsideRect.y + outsideRect.height - inRect.y;
+  }
+}
+
+function validateSetRect(target, rect) {
+  if (target === areas.allSamples) {
+    // limit to always contain positive and classified positive
+    mustContain(rect, getRect(areas.positive));
+    mustContain(rect, getRect(areas.classifiedPositive));
+  } else {
+    mustStayIn(rect, getRect(areas.allSamples));
+  }
 }
 
 function setRect(target, rect) {
@@ -65,21 +108,16 @@ function setRect(target, rect) {
     target.setAttribute('data-x', rect.x);
     target.setAttribute('data-y', rect.y);
   }
+
 }
 
 function dragMoveListener(event) {
-  //console.log(event)
-  var target = event.target;
   var rect = getRect(event.target);
   rect.x += event.dx;
   rect.y += event.dy;
-  // {
-  //   // keep the dragged position in the data-x/data-y attributes
-  //   x: (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-  //   y: (parseFloat(target.getAttribute('data-y')) || 0) + event.dy,
-  // }
 
-  setRect(target, rect);
+  validateSetRect(event.target, rect);
+  setRect(event.target, rect);
   updateStats();
 }
 
@@ -159,8 +197,8 @@ areas = {
   allSamples: document.querySelector('#all-samples'),
   classifiedPositive: document.querySelector('#classified-positive'),
 }
-setRect(areas.positive, {x: 5, y: 5, width: 200, height: 200});
-setRect(areas.classifiedPositive, {x: 30, y: 80, width: 300, height: 100});
+setRect(areas.positive, {x: 75, y: 65, width: 200, height: 200});
+setRect(areas.classifiedPositive, {x: 130, y: 180, width: 300, height: 100});
 setRect(areas.allSamples, {x: 10, y: 10, width: 500, height: 500});
 updateStats();
 tests();
