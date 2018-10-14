@@ -44,3 +44,10 @@ body {
   display: flex;
 }
 
+.label {
+  font-weight: bold;
+}
+
+.metric {
+  color: rgb(37, 37, 219);
+}

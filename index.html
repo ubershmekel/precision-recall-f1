@@ -1,6 +1,7 @@
 <html>
 
 <head>
+  <meta charset="UTF-8">
   <script src="vendor/interact.js"></script>
   <link rel="stylesheet" href="index.css">
   <script type="text/javascript">var showJsErrorsMessage="Unexpected error :( ";function showAlert(e){if(document.body){var n,o="snackAlertsContainer";if(!(n=document.getElementById(o)))(n=document.createElement("div")).id=o,document.body.appendChild(n);var r=document.createElement("div");r.innerHTML=e,r.className="snackAlert show",r.onmouseenter=function(){t&&(clearTimeout(t),t=0)},r.onmouseleave=function(){s()};var t=0;s(),n.appendChild(r)}else setTimeout(function(){showAlert(e)},200);function s(){t||(t=setTimeout(function(){r.className=r.className.replace("show","hiding"),setTimeout(function(){r.parentNode.removeChild(r)},1e3)},3e3))}}window.onerror=function(e,n,o){return showAlert(showJsErrorsMessage+e),!1},window.addEventListener("unhandledrejection",function(e){showAlert(showJsErrorsMessage+" Broken promise - "+e.reason)})</script><style type="text/css">#snackAlertsContainer{position:fixed;z-index:1;bottom:0;right:0;width:0}.snackAlert{display:none;margin:auto;position:relative;right:54vw;width:50vw;bottom:20px;margin-bottom:16px;background-color:#933;color:#fff;text-align:center;border-radius:2px;padding:16px;opacity:1;-webkit-transition:opacity 1s ease-in-out;-moz-transition:opacity 1s ease-in-out;-ms-transition:opacity 1s ease-in-out;-o-transition:opacity 1s ease-in-out;transition:opacity 1s ease-in-out}.snackAlert.hiding{display:block;opacity:0}.snackAlert.show{display:block;opacity:1;-webkit-animation:fadein 1.5s;animation:fadein 1.5s}@-webkit-keyframes fadein{from{bottom:0;opacity:0}to{bottom:20px;opacity:1}}@keyframes fadein{from{bottom:0;opacity:0}to{bottom:20px;opacity:1}}</style>
@@ -8,31 +9,34 @@
 <body>
   <ul class="stats-container">
     <li>
-      <span class="label">Samples</span> <span id="samples-count"></span>
+      Check out the <a href="">source on github</a>.
     </li>
-    <li>
-      <span class="label">Positive</span> <span id="positive-samples-count"></span>
+    <li title="All the samples. In this case - the entirety of the black region.">
+      <span class="label">Samples</span> <span class="metric" id="samples-count"></span>
     </li>
-    <li>
-      <span class="label">Classified Positive</span> <span id="classified-positive-samples-count"></span>
+    <li title="The amount of samples that truely are positive. In this case - the red region">
+      <span class="label">Positive</span> <span class="metric" id="positive-samples-count"></span>
     </li>
-    <li>
-      <span class="label">True Positives</span> <span id="true-positive-count"></span>
+    <li title="The amount of samples classified as positive. In this case - the green region.">
+      <span class="label">Classified Positive</span> <span class="metric" id="classified-positive-samples-count"></span>
     </li>
-    <li>
-      <span class="label">True Negatives</span> <span id="true-negative-count"></span>
+    <li title="The positives that were classified positive, in this case, the overlap between red and green.">
+      <span class="label">True Positives</span> <span class="metric" id="true-positive-count"></span>
     </li>
-    <li>
-      <span class="label">Precision</span> <span id="precision"></span>
+    <li title="The negatives that were classified negative. In this case - the purely black area excluding the red and green.">
+      <span class="label">True Negatives</span> <span class="metric" id="true-negative-count"></span>
     </li>
-    <li>
-      <span class="label">Recall/Sensitivity</span> <span id="recall"></span>
+    <li title="Σ True positive / Σ Predicted condition positive">
+      <span class="label">Precision</span> <span class="metric" id="precision"></span>
     </li>
-    <li>
-      <span class="label">Specificity</span> <span id="specificity"></span>
+    <li title="Σ True positive / Σ Condition positive">
+      <span class="label">Recall/Sensitivity</span> <span class="metric" id="recall"></span>
     </li>
-    <li>
-      <span class="label">F1/DSC</span> <span id="f1"></span>
+    <li title="Σ True negative / Σ Condition negative">
+      <span class="label">Specificity</span> <span class="metric" id="specificity"></span>
+    </li>
+    <li title="The harmonic mean between precision and recall. Also DSC is 2 times the true-positive area divided by (Positives + ClassifiedPositives)">
+      <span class="label">F1 Score or Dice's coefficient</span> <span class="metric" id="f1"></span>
     </li>
   </ul>
 
@@ -42,6 +46,18 @@
     <div class="resize-drag" id="classified-positive">Classified Positive</div>
   </div>
   <script src="index.js"></script>
+
+
+
+  <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+  <script>
+      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+      e.src='https://www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+      ga('create','UA-4533496-22','auto');ga('send','pageview');
+  </script>  
 </body>
 
 </html>
