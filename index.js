@@ -1,6 +1,5 @@
 interact('.resize-drag')
   .draggable({
-    onmove: dragMoveListener,
     restrict: {
       restriction: 'parent',
       elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
@@ -23,6 +22,15 @@ interact('.resize-drag')
 
     inertia: true,
   })
+  .on('dragmove', function(event) {
+    var rect = getRect(event.target);
+    rect.x += event.dx;
+    rect.y += event.dy;
+  
+    validateSetRect(event.target, rect, true);
+    setRect(event.target, rect);
+    updateStats();
+  })
   .on('resizemove', function (event) {
     var rect = getRect(event.target);
 
@@ -33,7 +41,7 @@ interact('.resize-drag')
     rect.height = event.rect.height;
 
     //target.textContent = Math.round(event.rect.width) + '\u00D7' + Math.round(event.rect.height);
-    validateSetRect(event.target, rect);
+    validateSetRect(event.target, rect, false);
     setRect(event.target, rect);
     updateStats();
   });
@@ -47,45 +55,67 @@ function getRect(target) {
   };
 }
 
-function mustContain(outsideRect, inRect) {
+function mustContain(outsideRect, inRect, isMove) {
   // outsideRect must be set to contain inRect within it
   if (inRect.x < outsideRect.x) {
     outsideRect.x = inRect.x;
   }
   if (inRect.x + inRect.width > outsideRect.x + outsideRect.width) {
-    outsideRect.width = inRect.x + inRect.width - outsideRect.x;
+    if (isMove) {
+      outsideRect.x = inRect.x + inRect.width - outsideRect.width;
+    } else {
+      outsideRect.width = inRect.x + inRect.width - outsideRect.x;
+    }
   }
   if (inRect.y < outsideRect.y) {
     outsideRect.y = inRect.y;
   }
   if (inRect.y + inRect.height > outsideRect.y + outsideRect.height) {
-    outsideRect.height = inRect.y + inRect.height - outsideRect.y;
+    if (isMove) {
+      outsideRect.y = inRect.y + inRect.height - outsideRect.height;
+    } else {
+      outsideRect.height = inRect.y + inRect.height - outsideRect.y;
+    }
   }
 }
 
-function mustStayIn(inRect, outsideRect) {
+function mustStayIn(inRect, outsideRect, isMove) {
   // inRect must be set to stay inside outsideRect
   if (inRect.x < outsideRect.x) {
     inRect.x = outsideRect.x;
   }
   if (inRect.x + inRect.width > outsideRect.x + outsideRect.width) {
-    inRect.width = outsideRect.x + outsideRect.width - inRect.x;
+    // Put the new width inbounds but avoid squishing
+    // This code would be simpler if we had top/left/right/botton instead of x/w/y/h.
+    var newWidth = outsideRect.x + outsideRect.width - inRect.x;
+    var deltaX = newWidth - inRect.width;
+    if(isMove) {
+      inRect.x += deltaX;
+    } else {
+      inRect.width = newWidth;
+    }
   }
   if (inRect.y < outsideRect.y) {
     inRect.y = outsideRect.y;
   }
   if (inRect.y + inRect.height > outsideRect.y + outsideRect.height) {
-    inRect.height = outsideRect.y + outsideRect.height - inRect.y;
+    var newHeight = outsideRect.y + outsideRect.height - inRect.y;
+    var deltaY = newHeight - inRect.height;
+    if(isMove) {
+      inRect.y += deltaY;
+    } else {
+      inRect.height = newHeight;
+    }
   }
 }
 
-function validateSetRect(target, rect) {
+function validateSetRect(target, rect, isMove) {
   if (target === areas.allSamples) {
     // limit to always contain positive and classified positive
-    mustContain(rect, getRect(areas.positive));
-    mustContain(rect, getRect(areas.classifiedPositive));
+    mustContain(rect, getRect(areas.positive), isMove);
+    mustContain(rect, getRect(areas.classifiedPositive), isMove);
   } else {
-    mustStayIn(rect, getRect(areas.allSamples));
+    mustStayIn(rect, getRect(areas.allSamples), isMove);
   }
 }
 
@@ -109,16 +139,6 @@ function setRect(target, rect) {
     target.setAttribute('data-y', rect.y);
   }
 
-}
-
-function dragMoveListener(event) {
-  var rect = getRect(event.target);
-  rect.x += event.dx;
-  rect.y += event.dy;
-
-  validateSetRect(event.target, rect);
-  setRect(event.target, rect);
-  updateStats();
 }
 
 function area(rect) {
@@ -191,7 +211,6 @@ function tests() {
 }
 
 // this is used later in the resizing and gesture demos
-window.dragMoveListener = dragMoveListener;
 areas = {
   positive: document.querySelector('#positive'),
   allSamples: document.querySelector('#all-samples'),
