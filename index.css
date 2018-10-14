@@ -60,3 +60,14 @@ body {
 .metric {
   color: rgb(37, 37, 219);
 }
+
+h1 {
+  margin: 1em 0.1em;
+  line-height: 0;
+  font-size:200%;
+  display: inline-block
+}
+
+ul {
+  margin: 0;
+}
