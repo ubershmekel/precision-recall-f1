@@ -4,6 +4,12 @@ interact('.resize-drag')
       restriction: 'parent',
       elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
     },
+    snap: {
+      targets: [
+        // snap to multiples of 10
+        interact.createSnapGrid({ x: 10, y: 10 }),
+      ]
+    }
   })
   .resizable({
     // resize from all edges and corners
