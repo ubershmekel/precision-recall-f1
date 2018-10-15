@@ -8,10 +8,12 @@ You can move the squares around and resize them to see how they affect the metri
 
 ## Things to try out
 
-* Resize the black "All samples" and notice that only `specificity`.
+* Resize the black "All samples" and notice that only `specificity` changes.
 * Try to get a perfect F1 score
-* Try to get a 0.99 specificity with 0 precision.
-* Try to get recall to be 1 when specificity is zero.
+* Try to get 0.99 specificity with all other metrics nearly zero.
+* Try to get 0.99 recall/sensitivity when specificity is nearly zero.
+* Try to get 0.99 precision and specificity when recall is nearly zero.
+* How would you qualitatively describe the classifier in the above scenarios?
 
 ## Screenshot
 
