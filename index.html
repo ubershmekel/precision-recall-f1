@@ -8,41 +8,41 @@
 </head>
 <body>
   <h1>Precision, recall, specificity, F1 score - an interactive demo</h1>
-  <ul class="stats-container">
-    <li>
-      Move and resize the rectangles to see the stats update. Check out the <a href="">source on github</a>.
-    </li>
-    <li title="All the samples. In this case - the entirety of the black region.">
-      <span class="label">Samples</span> <span class="metric" id="samples-count"></span>
-    </li>
-    <li title="The amount of samples that truely are positive. In this case - the red region">
-      <span class="label">Positive</span> <span class="metric" id="positive-samples-count"></span>
-    </li>
-    <li title="The amount of samples classified as positive. In this case - the green region.">
-      <span class="label">Classified Positive</span> <span class="metric" id="classified-positive-samples-count"></span>
-    </li>
-    <li title="The positives that were classified positive, in this case, the overlap between red and green.">
-      <span class="label">True Positives</span> <span class="metric" id="true-positive-count"></span>
-    </li>
-    <li title="The negatives that were classified negative. In this case - the purely black area excluding the red and green.">
-      <span class="label">True Negatives</span> <span class="metric" id="true-negative-count"></span>
-    </li>
-    <li title="Σ True positive / Σ Predicted condition positive">
-      <span class="label">Precision</span> <span class="metric" id="precision"></span>
-    </li>
-    <li title="Σ True positive / Σ Condition positive">
-      <span class="label">Recall/Sensitivity</span> <span class="metric" id="recall"></span>
-    </li>
-    <li title="Σ True negative / Σ Condition negative">
-      <span class="label">Specificity</span> <span class="metric" id="specificity"></span>
-    </li>
-    <li title="The harmonic mean between precision and recall. Also DSC is 2 times the true-positive area divided by (Positives + ClassifiedPositives)">
-      <span class="label">F1 Score or Dice's coefficient</span> <span class="metric" id="f1"></span>
-    </li>
-  </ul>
+  <h2>
+    Move and resize the rectangles to see the stats update. Check out the <a href="">source on github</a>.
+  </h2>
+  <table class="stats-container">
+    <tr title="All the samples. In this case - the entirety of the black region.">
+      <td class="label">Samples</td> <td class="metric" id="samples-count"></td>
+    </tr>
+    <tr title="The amount of samples that truely are positive. In this case - the red region">
+      <td class="label">Positive</td> <td class="metric" id="positive-samples-count"></td>
+    </tr>
+    <tr title="The amount of samples classified as positive. In this case - the green region.">
+      <td class="label">Classified Positive</td> <td class="metric" id="classified-positive-samples-count"></td>
+    </tr>
+    <tr title="The positives that were classified positive, in this case, the overlap between red and green.">
+      <td class="label">True Positives</td> <td class="metric" id="true-positive-count"></td>
+    </tr>
+    <tr title="The negatives that were classified negative. In this case - the purely black area excluding the red and green.">
+      <td class="label">True Negatives</td> <td class="metric" id="true-negative-count"></td>
+    </tr>
+    <tr title="Σ True positive / Σ Predicted condition positive">
+      <td class="label">Precision</td> <td class="metric" id="precision"></td>
+    </tr>
+    <tr title="Σ True positive / Σ Condition positive">
+      <td class="label">Recall/Sensitivity</td> <td class="metric" id="recall"></td>
+    </tr>
+    <tr title="Σ True negative / Σ Condition negative">
+      <td class="label">Specificity</td> <td class="metric" id="specificity"></td>
+    </tr>
+    <tr title="The harmonic mean between precision and recall. Also DSC is 2 times the true-positive area divided by (Positives + ClassifiedPositives)">
+      <td class="label">F1 Score or Dice</td> <td class="metric" id="f1"></td>
+    </tr>
+  </table>
 
   <div class="resize-container">
-    <div class="resize-drag" id="all-samples">All samples</div>
+    <div class="resize-drag" id="all-samples">All samples (negative)</div>
     <div class="resize-drag" id="positive">Positive</div>
     <div class="resize-drag" id="classified-positive">Classified Positive</div>
   </div>

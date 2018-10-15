@@ -1,10 +1,11 @@
 body {
   padding: 0;
   margin: 0;
+  font-family: monospace;
 }
 
 .resize-drag {
-  color: white;
+  color: #fff;
   font-size: 20px;
   font-family: sans-serif;
   border-radius: 8px;
@@ -39,8 +40,18 @@ body {
   padding: 0;
 }
 
+#samples-count, #true-negative-count {
+  background-color: #777;
+  color: #fff;
+}
+
 #all-samples {
   background-color: rgba(0,0,0,0.5);
+}
+
+#positive-samples-count {
+  color: #fff;
+  background-color: rgb(204, 67, 68);
 }
 
 #positive {
@@ -53,21 +64,54 @@ body {
   display: flex;
 }
 
+#classified-positive-samples-count {
+  background-color: rgb(42, 191, 67);
+  color: #fff;
+}
+
+#true-positive-count {
+  background-color: rgb(133, 171, 24);
+  color: #fff;
+}
+
 .label {
   font-weight: bold;
 }
 
 .metric {
   color: rgb(37, 37, 219);
+  padding: .2em;
+  display: inline-block;
+  min-width: 6em;
 }
 
 h1 {
-  margin: 1em 0.1em;
-  line-height: 0;
-  font-size:200%;
-  display: inline-block
+  margin: 10px 10px;
+  line-height: 0.5em;
+  font-size: 200%;
+  display: block
 }
 
-ul {
-  margin: 0;
+h2 {
+  margin: 10px 10px;
+  line-height: 0.5em;
+  font-size: 100%;
+  display: block
+}
+
+table td:last-child {
+  width: 100%;
+}
+
+tr {
+  border-bottom: solid 2px #000;
+}
+
+tr:hover {
+  border-bottom: solid 2px #f99;
+}
+
+table { 
+  border-collapse: collapse; 
+  margin: 0em 1em;
 }

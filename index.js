@@ -173,6 +173,10 @@ function intervalOverlap(a, widthA, b, widthB) {
   return Math.min(widthB, Math.max(0, rightOfA - b));
 }
 
+function roundThreeDec(num) {
+  return Math.round(num * 1000) / 1000;
+}
+
 function updateStats() {
   var rectAllSamples = getRect(areas.allSamples);
   var rectPositive = getRect(areas.positive);
@@ -192,12 +196,12 @@ function updateStats() {
   document.querySelector("#samples-count").innerHTML = sampleCount;
   document.querySelector("#positive-samples-count").innerHTML = positive;
   document.querySelector("#classified-positive-samples-count").innerHTML = classifiedPositive;
-  document.querySelector("#true-positive-count").innerHTML = tp;
-  document.querySelector("#true-negative-count").innerHTML = tn;
-  document.querySelector("#precision").innerHTML = precision;
-  document.querySelector("#recall").innerHTML = recall;
-  document.querySelector("#specificity").innerHTML = specificity;
-  document.querySelector("#f1").innerHTML = f1;
+  document.querySelector("#true-positive-count").innerHTML = roundThreeDec(tp);
+  document.querySelector("#true-negative-count").innerHTML = roundThreeDec(tn);
+  document.querySelector("#precision").innerHTML = roundThreeDec(precision);
+  document.querySelector("#recall").innerHTML = roundThreeDec(recall);
+  document.querySelector("#specificity").innerHTML = roundThreeDec(specificity);
+  document.querySelector("#f1").innerHTML = roundThreeDec(f1);
 }
 
 function assertEq(test, expected, description) {
