@@ -36,6 +36,7 @@ interact('.resize-drag')
     }
   })
   .on('dragmove', function(event) {
+    humanInteractionYet = true;
     var rect = getRect(event.target);
     rect.x += event.dx;
     rect.y += event.dy;
@@ -45,6 +46,7 @@ interact('.resize-drag')
     updateStats();
   })
   .on('resizemove', function (event) {
+    humanInteractionYet = true;
     var rect = getRect(event.target);
 
     // translate when resizing from top or left edges
@@ -228,16 +230,43 @@ function tests() {
   console.log("Finished tests");
 }
 
+function initBounce() {
+  var bounce = function() {
+    if (humanInteractionYet) {
+      return;
+    }
+
+    var posRect = getRect(areas.positive);
+    var delta = 10;
+    if (Math.random() > 0.5) {
+      delta = -10;
+    }
+    posRect.y = posRect.y + delta;
+    setRect(areas.positive, posRect);
+    updateStats();
+    setTimeout(bounce, 600);
+  }
+
+  bounce();
+}
+
+////////////////////////////////////////////////////////////
+// Main
+////////////////////////////////////////////////////////////
+
 // this is used later in the resizing and gesture demos
-areas = {
+var areas = {
   positive: document.querySelector('#positive'),
   allSamples: document.querySelector('#all-samples'),
   classifiedPositive: document.querySelector('#classified-positive'),
 }
+
+var humanInteractionYet = false;
+
 setRect(areas.positive, {x: 160, y: 60, width: 200, height: 200});
 setRect(areas.classifiedPositive, {x: 130, y: 180, width: 300, height: 100});
 setRect(areas.allSamples, {x: 10, y: 10, width: 500, height: 500});
 updateStats();
 tests();
-
+initBounce();
 
