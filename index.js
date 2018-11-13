@@ -1,3 +1,6 @@
+var gridSnapSize = 5;
+var minRectSize = 50;
+
 interact('.resize-drag')
   .draggable({
     restrict: {
@@ -6,8 +9,8 @@ interact('.resize-drag')
     },
     snap: {
       targets: [
-        // snap to multiples of 10
-        interact.createSnapGrid({ x: 10, y: 10 }),
+        // snap to multiples of gridSnapSize
+        interact.createSnapGrid({ x: gridSnapSize, y: gridSnapSize }),
       ]
     }
   })
@@ -21,17 +24,20 @@ interact('.resize-drag')
       //endOnly: true,
     },
 
-    // minimum size
-    restrictSize: {
-      min: { width: 100, height: 50 },
-    },
+    // `restrictSize` is buggy and caused not-round widths
+    // like 51.5123 pixels width which caused the Samples/Positive/ClassPos
+    // to be not round too.
+    // Instead we limit the height and width at `validateSetRect`
+    //restrictSize: {
+    //  min: { width: 50, height: 50 },
+    //},
 
     inertia: true,
 
     snap: {
       targets: [
-        // snap to multiples of 10
-        interact.createSnapGrid({ x: 10, y: 10 }),
+        // snap to multiples
+        interact.createSnapGrid({ x: gridSnapSize, y: gridSnapSize }),
       ]
     }
   })
@@ -125,6 +131,12 @@ function mustStayIn(inRect, outsideRect, isMove) {
 }
 
 function validateSetRect(target, rect, isMove) {
+  if (rect.width < minRectSize) {
+    rect.width = minRectSize;
+  }
+  if (rect.height < minRectSize) {
+    rect.height = minRectSize;
+  }
   if (target === areas.allSamples) {
     // limit to always contain positive and classified positive
     mustContain(rect, getRect(areas.positive), isMove);
