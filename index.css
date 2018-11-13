@@ -87,14 +87,14 @@ body {
 
 h1 {
   margin: 10px 10px;
-  line-height: 0.5em;
+  line-height: 1em;
   font-size: 200%;
   display: block
 }
 
 h2 {
   margin: 10px 10px;
-  line-height: 0.5em;
+  line-height: 1em;
   font-size: 100%;
   display: block
 }
